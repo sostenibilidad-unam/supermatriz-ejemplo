@@ -26,22 +26,22 @@ def sonDistintas(a, b):
         return False
     else:
         return True
-
-def eigenVector(nombreDelArchivoCsv):
     
+def laMatrizDeValores(nombreDelArchivoCsv):
     with open(nombreDelArchivoCsv) as f:
         f.readline()
         f.readline()
         ncols = len(f.readline().split(','))
  
     laSuperMatriz = np.matrix(np.loadtxt(nombreDelArchivoCsv, delimiter=',', skiprows=2, usecols=range(2, ncols)))
-    
-    
+    return laSuperMatriz
+
+def eigenVector(nombreDelArchivoCsv):
+ 
+    laSuperMatriz = laMatrizDeValores(nombreDelArchivoCsv)
     laAnterior = laSuperMatriz.copy()
     laSiguiente = laSuperMatriz * laSuperMatriz
-     
-     
-     
+
     while sonDistintas(laAnterior, laSiguiente):
         laAnterior = laSiguiente.copy()
         laSiguiente = laSiguiente * laSiguiente
@@ -50,8 +50,11 @@ def eigenVector(nombreDelArchivoCsv):
     columna = laSiguiente[:, [0]]
     return columna
 
-print eigenVector("DF101215_GOV_AP.csv")   
-estosNodos = obtenNodos("DF101215_GOV_AP.csv")
-print estosNodos[1]['cluster']
-print estosNodos[1]['nodos']
+# print eigenVector("DF101215_GOV_AP.csv")  
+#  
+# estosNodos = obtenNodos("DF101215_GOV_AP.csv")
+# print estosNodos[1]['cluster']
+# print estosNodos[1]['nodos']
+print laMatrizDeValores("DF101215_GOV_AP.csv")
+
 
